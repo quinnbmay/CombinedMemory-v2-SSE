@@ -1,0 +1,29 @@
+{
+  "name": "CombinedMemory-v2-SSE",
+  "version": "2.0.0",
+  "description": "SSE-compatible MCP memory server for OpenWebUI integration",
+  "main": "dist/index.mjs",
+  "type": "module",
+  "scripts": {
+    "build": "rm -f smithery.yaml && npx tsup",
+    "start": "node dist/index.mjs",
+    "dev": "tsx src/index.ts"
+  },
+  "keywords": ["mcp", "memory", "server", "sse", "openwebui"],
+  "author": "Quinn May",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "@types/ioredis": "^4.28.10"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.5",
+    "fastify": "^4.28.0",
+    "@fastify/cors": "^8.4.0",
+    "zod": "^3.22.0",
+    "ioredis": "^5.3.2"
+  }
+}
