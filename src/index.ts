@@ -30,9 +30,25 @@ class CombinedMemoryServer {
     this.redis = new Redis({
       host: process.env.DRAGONFLY_HOST || 'dragonflydb.railway.internal',
       port: parseInt(process.env.DRAGONFLY_PORT || '6379'),
-      // Fallback to in-memory if Redis unavailable
-      lazyConnect: true,
-      maxRetriesPerRequest: 1,
+      // Connection retry settings for better reliability
+      lazyConnect: false,
+      retryDelayOnFailover: 100,
+      maxRetriesPerRequest: 3,
+      connectTimeout: 10000,
+      commandTimeout: 5000,
+    });
+
+    // Setup connection error handlers
+    this.redis.on('connect', () => {
+      console.log('✅ DragonflyDB connection established');
+    });
+    
+    this.redis.on('error', (error) => {
+      console.error('❌ DragonflyDB connection error:', error.message);
+    });
+    
+    this.redis.on('close', () => {
+      console.warn('⚠️  DragonflyDB connection closed');
     });
 
     this.setupToolHandlers();
